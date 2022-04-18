@@ -1,11 +1,97 @@
-<html>
-   <head>
+<style>
+   body {
+      margin: 20;
+   }
+</style>
+<head>      
+   <Title>     
+   Triangle Number
+   </Title>  
+   <script>
+      function triangleNumDivisors(amount) {
+         let currentTriangleNum = 0;
+         let divisorsFound = 0;
+         let currentTry = 0;
+         while (divisorsFound < amount) {
+            currentTry++;
+            currentTriangleNum += currentTry;
+            divisorsFound = 0;
+            tryUpTo = Math.ceil((currentTriangleNum / 2) + 2);
+            for (let divisor = 1; divisor < tryUpTo; divisor++) {
+               if (currentTriangleNum % divisor === 0) {
+                  divisorsFound++;
+               }
+            }
+            console.log(currentTriangleNum, divisorsFound);
+         }
+         document.getElementById("answer").innerHTML = currentTriangleNum;
+         alert(currentTriangleNum);
+      }
 
-   </head>
-   <body>
+      function primeFactors (num) {
+         let divisor = 1;
+         let factorList = [];
+         let x = num;
+         
+         while (x > 1) {
+            
+            if (x % divisor === 0) {
+               x /= divisor;
+               factorList.push(divisor);
+               divisor = 2;
+               //checking if even
+            } else if (divisor === 2) {
+               divisor = 3;
+            } else {
+               divisor+=2;
+            }
+         }
+         return factorList;
+      }
 
-   </body>
-   <canvas>
-   </canvas>
-   <script src="./index.js"></script>
-</html>
+      function naturalFactors (num) {
+         pFactors = primeFactors(num);
+         pFactors.sort();
+         
+         let differentNumbers = 0;
+         let previousNum = 0;
+         // I need to figure out how many duplicate numbers there are. The list is already sorted. This might be inefficient but I don't really care
+         pFactors.forEach(element => {
+            if (previousNum != pFactors[element]) {
+               differentNumbers++;
+               previousNum = pFactors[element];
+            }
+         });
+         let nFactors = pFactors.length + differentNumbers;
+         console.log(nFactors);
+         return nFactors;
+      }
+
+      function optomisedTriangleNumDivisors (amount){
+         let currentTriangleNum = 0;
+         let divisorsFound = 0;
+         let currentTry = 0;
+         while (divisorsFound < amount) {
+            currentTry++;
+            currentTriangleNum += currentTry;
+            divisorsFound = naturalFactors(currentTriangleNum)
+            console.log(currentTriangleNum, divisorsFound);
+         }
+         document.getElementById("answer").innerHTML = currentTriangleNum;
+         alert(currentTriangleNum);
+      }
+   </script>  
+   </head>  
+<body>
+   <div>
+
+
+   <h1 title="hi">Triangle numbers for project euler</h1>
+   <form>
+      <input type="text" id = "divisorText" name = "num" value="500"><br><br>
+      <input type="submit" value="Submit" onclick="naturalFactors(500)">
+   </form>
+   <p id = "answer">Answer</p>
+   </div>
+</body>
+
